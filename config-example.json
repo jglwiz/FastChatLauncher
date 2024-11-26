@@ -1,0 +1,16 @@
+{
+    "openai": {
+        "api_key": "your-api-key-here",
+        "base_url": "https://api.openai.com/v1"
+    },
+    "hotkeys": {
+        "show_window": "alt+z"
+    },
+    "agents": {
+        "default": {
+            "nickname": "default",
+            "role_system": "speak in chinese",
+            "model": "openai/gpt-4o-mini"
+        }
+    }
+}
