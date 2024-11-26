@@ -1,4 +1,32 @@
-chat.spec
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.env
+*.egg-info/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+
+# Project specific
+build/
+dist/
+*.exe
+*.spec
+
+# Local configuration
 config.json
 __pycache__/ui_element.cpython-311.pyc
 __pycache__/ui.cpython-311.pyc
