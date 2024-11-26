@@ -33,7 +33,7 @@
 
 ## 🚀 安装说明
 
-1. 确保您的系统已安装Python 3.7或更高版本
+1. 确保您的系统已安装Python 3.11或更高版本
 2. 下载本项目的最新发布版本
 3. 安装依赖包：
 ```bash
@@ -81,32 +81,95 @@ python src/chat.py
 ## 🛠️ 系统要求
 
 - 操作系统：Windows 10及以上
-- Python版本：3.7+
+- Python版本：3.11+
 - 内存：4GB及以上
 - 硬盘空间：100MB以上
 
-## 🤝 贡献指南
+# English Version
 
-欢迎提交问题和改进建议！如果您想为项目做出贡献，请：
+# Accessible Large Language Model Chat Tool
 
-1. Fork本仓库
-2. 创建您的特性分支
-3. 提交您的更改
-4. 确保代码符合项目规范
-5. 提交Pull Request
+This is a large language model chat tool specifically designed for accessibility, allowing all users to conveniently use the AI chat functionality.
 
-## 📄 许可证
+## ✨ Features
 
-本项目采用MIT许可证 - 详见 [LICENSE](LICENSE) 文件
+### 1. Accessible Design
+- Full support for screen readers
+- Clear interface layout
+- High contrast display
+- Compatibility with various assistive technologies
 
-## 📞 联系方式
+### 2. Full Keyboard Support
+- All functionalities can be accessed via keyboard
+- Convenient and efficient keyboard shortcuts
+- No reliance on mouse operation
+- Clear keyboard focus indicators
 
-如有任何问题或建议，欢迎通过以下方式联系我们：
+### 3. Simple and Easy to Use
+- Intuitive and straightforward interface
+- Clear usage flow
+- Plug-and-play, no complex setup required
+- Support for multiple conversation modes
 
-- 提交Issue
-- 发送电子邮件
-- 加入用户社区
+### 4. Flexible Configuration
+- Supports configuration through the graphical menu bar
+  - OpenAI API settings
+  - Global hotkey settings
+  - Agent role configuration
+- Supports JSON configuration file
+  - Configuration file location: `config.json`
+  - Can be directly edited to modify the configuration
 
----
+## 🚀 Installation Instructions
 
-感谢使用我们的无障碍大模型聊天工具！我们致力于为所有用户提供平等的AI对话体验。
+1. Ensure your system has Python 3.11 or a higher version installed
+2. Download the latest release of this project
+3. Install the required dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+## 📖 Usage Instructions
+
+1. Run the main program:
+```bash
+python src/chat.py
+```
+
+2. Common Shortcuts:
+- `Ctrl + N`: Create a new conversation
+- `Enter`: Send a message
+- `Tab`: Switch focus between different elements
+
+3. Configuration Guide:
+- Through the menu bar
+  1. Click "File" -> "Configuration" to set the OpenAI API and global hotkeys
+  2. Click "File" -> "Add Agent" to configure different conversation roles
+- Through the JSON configuration
+  1. Directly edit the `config.json` file
+  2. Configuration file structure:
+```json
+{
+    "openai": {
+        "api_key": "Your OpenAI API key",
+        "base_url": "https://api.openai.com/v1"
+    },
+    "hotkeys": {
+        "show_window": "alt+z"
+    },
+    "agents": {
+        "default": {
+            "nickname": "default",
+            "role_system": "speak in chinese",
+            "model": "openai/gpt-4-mini"
+        }
+    }
+}
+```
+
+## 🛠️ System Requirements
+
+- Operating System: Windows 10 or later
+- Python Version: 3.11+
+- Memory: 4GB or more
+- Disk Space: 100MB or more
