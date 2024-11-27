@@ -3,15 +3,38 @@ import wx.lib.scrolledpanel as scrolled
 
 class MessagePanel(scrolled.ScrolledPanel):
     def __init__(self, parent):
-        super().__init__(parent, style=wx.SUNKEN_BORDER | wx.VSCROLL)
+        super().__init__(parent, style=wx.SUNKEN_BORDER | wx.VSCROLL | wx.WANTS_CHARS)
         self.history_sizer = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(self.history_sizer)
         
         # 设置滚动
-        self.SetupScrolling(scroll_x=False, scroll_y=True, rate_y=20)
+        self.SetupScrolling(scroll_x=True, scroll_y=True, rate_y=20)
         
         # 记录最新的消息文本框
         self.latest_message_text = None
+        
+        # 绑定鼠标滚轮事件处理函数
+        self.Bind(wx.EVT_MOUSEWHEEL, self.OnMouseWheel)
+        
+    def OnMouseWheel(self, event):
+        """处理鼠标滚轮事件"""
+        # 获取滚轮旋转方向和位置
+        rotation = event.GetWheelRotation()
+        position = event.GetPosition()
+        
+        # 检查鼠标是否在窗口内或当前焦点在消息文本框上
+        window_rect = self.GetRect()
+        focused_window = wx.Window.FindFocus()
+        if window_rect.Contains(position) or (focused_window and isinstance(focused_window, wx.TextCtrl)):
+            # 计算新的滚动位置
+            current_position = self.GetViewStart()[1]
+            new_position = current_position - rotation / event.GetWheelDelta()
+            
+            # 设置新的滚动位置
+            self.Scroll(-1, int(new_position))
+        else:
+            # 如果鼠标不在窗口内,则跳过处理
+            event.Skip()
         
     def create_message_panel(self, sender):
         """创建消息面板"""
@@ -26,12 +49,11 @@ class MessagePanel(scrolled.ScrolledPanel):
                                  style=wx.TE_READONLY | wx.TE_AUTO_URL | wx.NO_BORDER | 
                                        wx.TE_BESTWRAP | wx.TE_MULTILINE | wx.TE_NO_VSCROLL)
         
-        # 设置初始大小为5行
-        dc = wx.ClientDC(message_text)
-        dc.SetFont(message_text.GetFont())
-        line_height = dc.GetCharHeight()
-        initial_height = line_height * 5
-        message_text.SetMinSize((-1, initial_height))
+        # 设置文本框的宽度为父窗口的宽度减去边距
+        message_text.SetMinSize((self.GetSize()[0] - 40, -1))
+        
+        # 绑定消息文本框的滚轮事件处理函数
+        message_text.Bind(wx.EVT_MOUSEWHEEL, self.OnMouseWheel)
         
         msg_sizer.Add(sender_text, 0, wx.ALL, 5)
         msg_sizer.Add(message_text, 0, wx.EXPAND | wx.ALL, 5)
@@ -52,7 +74,7 @@ class MessagePanel(scrolled.ScrolledPanel):
         if not message_text:
             return
             
-        # 计算文本需要的高度
+        # 计算文本需要的高度和宽度
         dc = wx.ClientDC(message_text)
         dc.SetFont(message_text.GetFont())
         
@@ -63,7 +85,7 @@ class MessagePanel(scrolled.ScrolledPanel):
         text_height = 0
         line_height = dc.GetCharHeight()
         
-        # 为每行计算高度
+        # 为每行计算高度和宽度
         for line in text.split('\n'):
             if not line:
                 text_height += line_height
@@ -83,12 +105,8 @@ class MessagePanel(scrolled.ScrolledPanel):
                     current_width = width
             text_height += line_height
         
-        # 确保至少有5行的高度
-        min_height = line_height * 5
-        text_height = max(text_height, min_height)
-        
         # 设置新的大小
-        message_text.SetMinSize((-1, text_height + 10))  # 添加一些边距
+        message_text.SetMinSize((text_width, text_height + 10))  # 添加一些边距
         
         # 更新布局
         message_text.GetParent().Layout()
